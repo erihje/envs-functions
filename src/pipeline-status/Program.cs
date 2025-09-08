@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using Azure.Identity;
 using Azure.Messaging.EventHubs.Producer;
@@ -32,10 +33,10 @@ builder.Services.AddSingleton<EventHubProducerClient>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
 
-    // Read settings with both "__" and ":" styles
-    string cs   = config["EH__ConnectionString"] ?? config["EH:ConnectionString"];
-    string name = config["EH__Name"]            ?? config["EH:Name"]            ?? "eh-pipeline-status";
-    string fqdn = config["EH__Fqdn"]            ?? config["EH:Fqdn"]; // namespace FQDN
+    // Nullable because IConfiguration indexer returns string?
+    string? cs   = config["EH__ConnectionString"] ?? config["EH:ConnectionString"];
+    var     name = config["EH__Name"]            ?? config["EH:Name"]            ?? "eh-pipeline-status";
+    string? fqdn = config["EH__Fqdn"]            ?? config["EH:Fqdn"]; // namespace FQDN
 
     // Prefer SAS if provided (keeps your current behavior)
     if (!string.IsNullOrWhiteSpace(cs))
