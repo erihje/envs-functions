@@ -1,0 +1,18 @@
+# Build
+bin/
+obj/
+out/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# VS Code logs
+.vscode/*.log
+
+# Local settings & secrets
+**/local.settings.json
+
+# Zip artifacts
+*.zip

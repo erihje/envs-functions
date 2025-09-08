@@ -1,0 +1,21 @@
+name: build-python
+on:
+  push:
+    paths:
+      - 'src/pipeline-inventory/**'
+      - '.github/workflows/build-python.yml'
+  pull_request:
+    paths:
+      - 'src/pipeline-inventory/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: src/pipeline-inventory } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m venv .venv
+      - run: . .venv/Scripts/activate ; pip install -r requirements.txt
+      - run: zip -r ../pipeline-inventory.zip . -x "local.settings.json" ".venv/*" "__pycache__/*"
